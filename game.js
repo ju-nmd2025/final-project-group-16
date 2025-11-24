@@ -1,23 +1,9 @@
 import { character } from "./character";
+import platform from "platform";
 
 function setup() {
     createCanvas(400, 400);
 }
-
-
-let platform = {
-    x: 250,
-    y: 250,
-    w: 80,
-    h: 20,
-
-    draw() {
-		push();
-        fill("blue");
-        rect(this.x, this.y, this.w, this.h);
-		pop();
-    },
-};
 
 // Obstacle / Spike / Death
 function drawObstacle() {
