@@ -1,49 +1,38 @@
 import platform from "platform.js";
 import { Character } from "./character.js";
 
-
+let canvasWidth = 400;
+let canvasHeight = 500;
+let floor = 400;
+let character;
+let gap;
+let platforms = [];
 
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
     colorMode(HSB);
+    character = new Character(canvasWidth/2,canvasHeight/2,50,80);
+
+    let platformCount = 6;
+    gap = canvasHeight/platformCount;
+    for (let i = 1; i < platformCount; i++) {
+        platforms.push(new Platform(random(canvasWidth), canvasHeight - i*gap));
+    }
 }
-
-
-let canvasWidth = 400;
-let canvasHeight = 500;
-let floor = 400;
-let character = new Character(0,0,50,80);
 
 function draw() {
     background(256,32,100);
 
     character.draw();
-    platform.draw();
-
-    platform.x -= 10;
-    if (platform.x + platform.w <= 0) {
-        platform.x = 500;
+    character.update();
+    
+    for (let platform of platforms) {
+        platform.draw();
     }
-
-    // Character gravity
-    if (
-        character.y + character.h < floor && !character.isColliding(character,platform)
-    ) {
-        character.y += 10;
-    }
-    if (keyIsDown(39)===true && character.x+character.w <= canvasWidth){
-        {character.x += 15;}
-        }
-    if (keyIsDown (37)===true && character.x >= 0){
-        {character.x -= 15;}
-        }
-
-    // Floor
-    line(0, floor, canvasWidth, floor);
 }
 
 function keyPressed() {
-    if (keyCode === 38 && (character.y + character.h === floor || character.isColliding(character, platform))) {
-        {character.y -= 120;}
+    if (keyCode === 38) {
+        {character.jump();}
     }
     }
