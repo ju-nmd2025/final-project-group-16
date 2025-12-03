@@ -11,7 +11,11 @@ let score = 0;
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
   colorMode(HSB);
-  character = new Character(canvasWidth / 2, canvasHeight / 2, 50, 80);
+
+  platforms = [];
+  score = 0;
+
+  character = new Character(canvasWidth / 2, canvasHeight / 3, 50, 80);
 
   let platformCount = 6;
   gap = canvasHeight / platformCount;
@@ -23,7 +27,19 @@ function setup() {
 function draw() {
   background(256, 32, 100);
 
+  if (character.velocity > 12) {
+    noLoop();
+    gameOver();
+  }
+
   translate(0, canvasWidth / 2 - character.y);
+
+  push();
+  fill(0, 0, 100);
+  textSize(30);
+  textAlign(CENTER);
+  text(score, canvasWidth / 2, character.y - 150);
+  pop();
 
   character.draw();
   character.update(platforms);
@@ -32,18 +48,12 @@ function draw() {
     platform.draw();
   }
 
+  //add more platforms as character moves up
   if (character.y < platforms[platforms.length - 1].y + 200) {
     platforms.push(
       new Platform(random(canvasWidth), platforms[platforms.length - 1].y - gap)
     );
   }
-
-  push();
-  fill(0, 0, 100);
-  textSize(30);
-  textAlign(CENTER);
-  text(score, canvasWidth / 2, character.y - 150);
-  pop();
 }
 
 function keyPressed() {
@@ -51,5 +61,22 @@ function keyPressed() {
     {
       character.jump();
     }
+  }
+}
+
+function gameOver() {
+  textSize(30);
+  textAlign(CENTER);
+  text("You scored:", canvasWidth / 2, canvasHeight / 2);
+  textSize(30);
+  text(score, canvasWidth / 2, canvasHeight / 2 + 50);
+  textSize(25);
+  text(`Press SPACE to play again`, canvasWidth / 2, canvasHeight / 2 + 100);
+}
+
+function keyPressed() {
+  if (keyCode === 32) {
+    setup();
+    loop();
   }
 }
