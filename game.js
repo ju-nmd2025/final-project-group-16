@@ -1,47 +1,49 @@
-import platform from "platform";
-import { Character } from "./character";
+import platform from "platform.js";
+import { Character } from "./character.js";
+
+
 
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
+    colorMode(HSB);
 }
 
-// Obstacle / Spike / Death
-function drawObstacle() {
-    push();
-    fill("red");
-    triangle(180, 300, 210, 240, 240, 300);
-    pop();
-}
 
 let canvasWidth = 400;
-let canvasHeight = 400;
-let floor = 300;
-let character = new Character(50, 50, 50, 50);
+let canvasHeight = 500;
+let floor = 400;
+let character = new Character(0,0,50,80);
 
 function draw() {
-    background(100, 100, 100);
+    background(256,32,100);
 
     character.draw();
     platform.draw();
 
     platform.x -= 10;
-    if (platform.x + platform.w < 0) {
+    if (platform.x + platform.w <= 0) {
         platform.x = 500;
     }
 
+    // Character gravity
     if (
-        character.y + character.h < 300 &&
-        !character.isColliding(character, platform)
+        character.y + character.h < floor && !character.isColliding(character,platform)
     ) {
         character.y += 10;
     }
+    if (keyIsDown(39)===true && character.x+character.w <= canvasWidth){
+        {character.x += 15;}
+        }
+    if (keyIsDown (37)===true && character.x >= 0){
+        {character.x -= 15;}
+        }
 
     // Floor
     line(0, floor, canvasWidth, floor);
 }
 
 function keyPressed() {
-    if (character.y + character.h === floor || character.isColliding(character, platform)) {
-        character.y -= 120;
+    if (keyCode === 38 && (character.y + character.h === floor || character.isColliding(character, platform))) {
+        {character.y -= 120;}
     }
-}
+    }
