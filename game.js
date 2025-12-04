@@ -7,6 +7,8 @@ let character;
 let gap;
 let platforms = [];
 let score = 0;
+let difficulty = 5;
+let speed = random(10);
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
@@ -31,7 +33,7 @@ function setup() {
 function draw() {
   background(228, 40, 100);
 
-  if (character.velocity > 30) {
+  if (character.velocity > 35) {
     noLoop();
     gameOver();
   }
@@ -39,10 +41,10 @@ function draw() {
   translate(0, canvasHeight / 2 - character.y);
 
   push();
-  fill(0, 0, 100);
+  fill(0, 0, 0);
   textSize(30);
   textAlign(CENTER);
-  text(score, canvasWidth / 2, character.y - 150);
+  text(score, canvasWidth / 2, character.y - 200);
   pop();
 
   character.draw();
@@ -56,22 +58,38 @@ function draw() {
   if (character.y < platforms[platforms.length - 1].y + 200) {
     platforms.push(
       new Platform(
-        random(canvasWidth - 10),
+        random(canvasWidth - 20),
         platforms[platforms.length - 1].y - gap
       )
     );
   }
+
+  if (score > difficulty) {
+    platforms[2].x = platforms[2].x + speed;
+    if (platforms[2].x > canvasWidth) {
+      platforms[2].x = 0 - platforms[2].w + speed;
+    }
+  }
+
+  if (score > difficulty + difficulty) {
+    platforms[1].x = platforms[1].x + speed;
+    if (platforms[1].x > canvasWidth) {
+      platforms[1].x = 0 - platforms[1].w + speed;
+    }
+  }
 }
+
+console.log(platforms[2]);
 
 function gameOver() {
   textSize(30);
   textAlign(CENTER);
-  fill(0, 0, 100);
-  text("You scored:", canvasWidth / 2, canvasHeight / 2);
+  fill(0, 0, 0);
+  text("You scored:", canvasWidth / 2, canvasHeight / 8 - 20);
   textSize(30);
-  text(score, canvasWidth / 2, canvasHeight / 2 + 50);
+  text(score, canvasWidth / 2, canvasHeight / 8 + 25);
   textSize(25);
-  text(`Press SPACE to play again`, canvasWidth / 2, canvasHeight / 2 + 100);
+  text("Press SPACE to play again", canvasWidth / 2, canvasHeight / 8 + 70);
 }
 
 function keyPressed() {

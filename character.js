@@ -363,7 +363,7 @@ export default class Character {
     if (this.velocity < -40) this.velocity = -40;
 
     //clear platforms as they reach the bottom
-    if (platforms[0].y > character.y + 400) {
+    if (platforms[0].y > character.y + 350) {
       platforms.splice(0, 1);
       score++;
     }
