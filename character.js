@@ -6,8 +6,8 @@ export default class Character {
     this.h = h;
 
     this.velocity = 0;
-    this.gravity = 0.98;
-    this.jumpPower = 20;
+    this.gravity = 0.8;
+    this.jumpPower = 16;
   }
 
   draw() {

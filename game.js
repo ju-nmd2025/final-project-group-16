@@ -17,10 +17,11 @@ function setup() {
 
   character = new Character(canvasWidth / 2, canvasHeight / 3, 50, 60);
 
-  //platform generation
+  //initial platform generation
   let platformCount = 5;
   gap = canvasHeight / platformCount;
   for (let i = 1; i < platformCount; i++) {
+    platforms.push(new Platform(canvasWidth / 2 - 35 / 2, canvasHeight - gap));
     platforms.push(
       new Platform(random(canvasWidth - 15), canvasHeight - i * gap)
     );
@@ -65,6 +66,7 @@ function draw() {
 function gameOver() {
   textSize(30);
   textAlign(CENTER);
+  fill(0, 0, 100);
   text("You scored:", canvasWidth / 2, canvasHeight / 2);
   textSize(30);
   text(score, canvasWidth / 2, canvasHeight / 2 + 50);
