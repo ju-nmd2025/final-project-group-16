@@ -15,13 +15,13 @@ function setup() {
   platforms = [];
   score = 0;
 
-  character = new Character(canvasWidth / 2, canvasHeight / 3, 50, 60);
+  character = new Character(canvasWidth / 2, canvasHeight - gap, 50, 60);
 
   //initial platform generation
+  platforms.push(new Platform(canvasWidth / 2 - 35 / 2, canvasHeight));
   let platformCount = 5;
   gap = canvasHeight / platformCount;
   for (let i = 1; i < platformCount; i++) {
-    platforms.push(new Platform(canvasWidth / 2 - 35 / 2, canvasHeight - gap));
     platforms.push(
       new Platform(random(canvasWidth - 15), canvasHeight - i * gap)
     );
@@ -36,7 +36,7 @@ function draw() {
     gameOver();
   }
 
-  translate(0, canvasWidth / 2 - character.y);
+  translate(0, canvasHeight / 2 - character.y);
 
   push();
   fill(0, 0, 100);
