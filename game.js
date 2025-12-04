@@ -15,30 +15,31 @@ function setup() {
   platforms = [];
   score = 0;
 
-  character = new Character(canvasWidth / 2, canvasHeight / 3, 50, 80);
+  character = new Character(canvasWidth/2, canvasHeight/3, 50, 60);
 
-  let platformCount = 6;
+  //platform generation
+  let platformCount = 5 ;
   gap = canvasHeight / platformCount;
   for (let i = 1; i < platformCount; i++) {
-    platforms.push(new Platform(random(canvasWidth), canvasHeight - i * gap));
+    platforms.push(new Platform(random(canvasWidth-15), canvasHeight - i * gap));
   }
 }
-
+ 
 function draw() {
   background(256, 32, 100);
 
-  if (character.velocity > 12) {
+  if (character.velocity > 25) {
     noLoop();
     gameOver();
   }
 
-  translate(0, canvasWidth / 2 - character.y);
-
-  push();
-  fill(0, 0, 100);
-  textSize(30);
+  translate(0, canvasWidth/2 - character.y);
+  
+   push();
+  fill(0, 0, 100); 
+    textSize(30);
   textAlign(CENTER);
-  text(score, canvasWidth / 2, character.y - 150);
+  text(score, canvasWidth/2, character.y - 150);
   pop();
 
   character.draw();
@@ -48,21 +49,14 @@ function draw() {
     platform.draw();
   }
 
-  //add more platforms as character moves up
-  if (character.y < platforms[platforms.length - 1].y + 200) {
-    platforms.push(
-      new Platform(random(canvasWidth), platforms[platforms.length - 1].y - gap)
-    );
-  }
+  //add more platforms as character moves up 
+    if (character.y < platforms[platforms.length - 1].y + 200) {
+      platforms.push(
+        new Platform(random(canvasWidth), platforms[platforms.length - 1].y - gap)
+      );
+    }
 }
 
-function keyPressed() {
-  if (keyCode === 38) {
-    {
-      character.jump();
-    }
-  }
-}
 
 function gameOver() {
   textSize(30);
