@@ -17,16 +17,16 @@ function setup() {
   platforms = [];
   score = 0;
 
-  character = new Character(canvasWidth / 2, canvasHeight - gap, 50, 60);
+  character = new Character(canvasWidth / 2-25, canvasHeight - gap, 50, 60);
 
   //initial platform generation
-  platforms.push(new Platform(canvasWidth / 2 - 35 / 2, canvasHeight));
+  platforms.push(new Platform(canvasWidth / 2 - character.w/2, canvasHeight));
   let platformCount = 5;
   gap = canvasHeight / platformCount;
   for (let i = 1; i < platformCount; i++) {
     platforms.push(
       new Platform(random(canvasWidth - 15), canvasHeight - i * gap)
-    );
+    );  
   }
 }
 
@@ -63,23 +63,43 @@ function draw() {
       )
     );
   }
-
+  //make the platforms move after a certain point, but freeze once jumped on
   if (score > difficulty) {
-    platforms[2].x = platforms[2].x + speed;
-    if (platforms[2].x > canvasWidth) {
-      platforms[2].x = 0 - platforms[2].w + speed;
+    platforms[4].x = platforms[4].x + speed;
+    if (platforms[4].x > canvasWidth) {
+      platforms[4].x = 0 - platforms[4].w;
     }
   }
 
-  if (score > difficulty + difficulty) {
+  if (score > difficulty+1) {
+    platforms[3].x = platforms[3].x + speed;
+    if (platforms[3].x > canvasWidth) {
+      platforms[3].x = 0 - platforms[3].w;
+    }
+  }
+
+  if (score > difficulty+2) {
+    platforms[2].x = platforms[2].x + speed;
+    if (platforms[2].x > canvasWidth) {
+      platforms[2].x = 0 - platforms[2].w;
+    }
+  }  
+
+  if (score > difficulty*2) { //at an even further point the platforms no longer freeze after being jumped on
     platforms[1].x = platforms[1].x + speed;
     if (platforms[1].x > canvasWidth) {
       platforms[1].x = 0 - platforms[1].w + speed;
     }
   }
+
+  if (score > difficulty*2+1) { 
+    platforms[0].x = platforms[0].x + speed;
+    if (platforms[0].x > canvasWidth) {
+      platforms[0].x = 0 - platforms[0].w + speed;
+    }
+  }
 }
 
-console.log(platforms[2]);
 
 function gameOver() {
   textSize(30);

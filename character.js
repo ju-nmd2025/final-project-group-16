@@ -11,7 +11,7 @@ export default class Character {
   }
 
   draw() {
-    push();
+    push(); //body base
     fill(25, 60, 60);
     circle(this.x + 25, this.y + 45, 25);
     pop();
@@ -103,7 +103,7 @@ export default class Character {
     endShape();
     pop();
 
-    push();
+    push(); 
     fill(25, 35, 25);
     beginShape(); //tail
     vertex(this.x + 40, this.y + 55);
@@ -352,7 +352,7 @@ export default class Character {
         let maxX = platform.x + platform.w;
 
         if (this.x >= minX && this.x <= maxX) {
-          if (this.velocity > 0) {
+          if (this.velocity > 0) { //can only jump when falling down on platforms, not turboboost up through them
             this.jump();
           }
         }
