@@ -324,7 +324,7 @@ export default class Character {
     if (this.x + this.w < 0) this.x = canvasWidth;
     if (this.x > canvasWidth) this.x = -this.w;
 
-    //gravity affects character
+    // enables gravity to affect the character
     this.velocity += this.gravity;
     this.y += this.velocity;
 

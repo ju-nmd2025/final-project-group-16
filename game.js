@@ -1,4 +1,4 @@
-import platform from "platform.js";
+import { Platform } from "./platform.js";
 import { Character } from "./character.js";
 
 let canvasWidth = 400;
@@ -8,7 +8,8 @@ let gap;
 let platforms = [];
 let score = 0;
 let difficulty = 5;
-let speed = random(10);
+let speed = 6;
+let gameStart = false;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
@@ -31,6 +32,27 @@ function setup() {
 }
 
 function draw() {
+if (gameStart ==false){
+  startScreen();
+} else {
+  gameScreen();
+}
+}
+
+function startScreen(){
+  background(228, 40, 100);
+  textSize(30);
+  textAlign(CENTER);
+  fill(0, 0, 0);
+  text("Click to Start", canvasWidth / 2, canvasHeight / 8);
+  textSize(20);
+  let s = "Use the arrow keys to guide Drago the Angel Doggo   from cloud to cloud";
+  text(s, canvasWidth / 6, canvasHeight / 5, canvasWidth/1.5);
+  translate(0, canvasHeight / 2 - character.y);
+  character.draw();
+}
+
+function gameScreen(){
   background(228, 40, 100);
 
   if (character.velocity > 35) {
@@ -39,6 +61,7 @@ function draw() {
   }
 
   translate(0, canvasHeight / 2 - character.y);
+
 
   push();
   fill(0, 0, 0);
@@ -116,5 +139,12 @@ function keyPressed() {
   if (keyCode === 32) {
     setup();
     loop();
+    gameStart = false;
   }
+}
+
+function mouseClicked(){
+  gameStart = true;
+  setup();
+  loop();
 }
