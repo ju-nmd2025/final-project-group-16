@@ -160,3 +160,6 @@ function mouseClicked(){
     loop();
   }
 }
+
+//git is being really weird and I just needed something to be able to commit again to test something
+//bouncing between Windows and Linux machines has resulted in some very weird behavior from VS Code and github
