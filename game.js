@@ -7,9 +7,10 @@ let character;
 let gap;
 let platforms = [];
 let score = 0;
-let difficulty = 5;
+let difficulty = 10;
 let speed = 6;
-let gameStart = false;
+let gameStart = "start";
+let highScore = 0;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
@@ -32,9 +33,9 @@ function setup() {
 }
 
 function draw() {
-if (gameStart ==false){
+if (gameStart =="start"){
   startScreen();
-} else {
+} else if (gameStart =="play"){ 
   gameScreen();
 }
 }
@@ -62,12 +63,18 @@ function gameScreen(){
 
   translate(0, canvasHeight / 2 - character.y);
 
+  if (score >= highScore){
+    highScore = score;
+    }
 
   push();
   fill(0, 0, 0);
   textSize(30);
   textAlign(CENTER);
   text(score, canvasWidth / 2, character.y - 200);
+  textSize(20);
+  textAlign(CENTER);
+  text(`High Score:  ${highScore}`, canvasWidth / 2, character.y+250);
   pop();
 
   character.draw();
@@ -133,18 +140,23 @@ function gameOver() {
   text(score, canvasWidth / 2, canvasHeight / 8 + 25);
   textSize(25);
   text("Press SPACE to play again", canvasWidth / 2, canvasHeight / 8 + 70);
+  gameStart = "end";
 }
 
 function keyPressed() {
   if (keyCode === 32) {
-    setup();
-    loop();
-    gameStart = false;
+    if (gameStart == "end"){
+      setup();
+      loop();
+      gameStart = "start";
+       }
   }
 }
 
 function mouseClicked(){
-  gameStart = true;
-  setup();
-  loop();
+  if(gameStart=="start"){
+    gameStart = "play";
+    setup();
+    loop();
+  }
 }
