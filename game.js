@@ -128,6 +128,14 @@ function gameScreen(){
       platforms[0].x = 0 - platforms[0].w + speed;
     }
   }
+
+  if (score > difficulty*3) { //at an even further point the platforms disappear after being jumped on
+    platforms[1].x = 1000 + (speed*0);
+  }
+
+  if (score > difficulty*3+1) { 
+    platforms[0].x = 1000 + (speed*0);
+  }
 }
 
 
