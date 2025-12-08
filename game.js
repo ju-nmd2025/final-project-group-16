@@ -7,9 +7,9 @@ let character;
 let gap;
 let platforms = [];
 let score = 0;
-let difficulty = 10;
+let difficulty = 10; //sets score at which new platform variants start to appear
 let speed = 6;
-let gameStart = "start";
+let gameMode = "start";
 let highScore = 0;
 
 function setup() {
@@ -19,53 +19,57 @@ function setup() {
   platforms = [];
   score = 0;
 
-  character = new Character(canvasWidth / 2-25, canvasHeight - gap, 50, 60);
+  character = new Character(canvasWidth / 2 - 25, canvasHeight - gap, 50, 60);
 
   //initial platform generation
-  platforms.push(new Platform(canvasWidth / 2 - character.w/2, canvasHeight));
+  platforms.push(new Platform(canvasWidth / 2 - character.w / 2, canvasHeight));
   let platformCount = 5;
   gap = canvasHeight / platformCount;
   for (let i = 1; i < platformCount; i++) {
     platforms.push(
       new Platform(random(canvasWidth - 15), canvasHeight - i * gap)
-    );  
+    );
   }
 }
 
 function draw() {
-if (gameStart =="start"){
-  startScreen();
-} else if (gameStart =="play"){ 
-  gameScreen();
-}
+  if (gameMode == "start") {
+    startScreen();
+  } else if (gameMode == "play") {
+    gameScreen();
+  }
 }
 
-function startScreen(){
+function startScreen() {
   background(228, 40, 100);
   textSize(30);
   textAlign(CENTER);
   fill(0, 0, 0);
   text("Click to Start", canvasWidth / 2, canvasHeight / 8);
   textSize(20);
-  let s = "Use the arrow keys to guide Drago the Angel Doggo   from cloud to cloud";
-  text(s, canvasWidth / 6, canvasHeight / 5, canvasWidth/1.5);
-  translate(0, canvasHeight / 2 - character.y);
-  character.draw();
+  let s =
+    "Use the arrow keys to guide Drago the Angel Doggo   from cloud to cloud";
+  text(s, canvasWidth / 6, canvasHeight / 5, canvasWidth / 1.5);
 }
 
-function gameScreen(){
+function gameScreen() {
   background(228, 40, 100);
 
+  /* set character death condition
+  when character reaches a certain fall speed
+  because character y is locked by the translate command */
   if (character.velocity > 35) {
     noLoop();
     gameOver();
   }
 
+  //keep canvas centered on character y
   translate(0, canvasHeight / 2 - character.y);
 
-  if (score >= highScore){
+  //high score tracker
+  if (score >= highScore) {
     highScore = score;
-    }
+  }
 
   push();
   fill(0, 0, 0);
@@ -74,7 +78,7 @@ function gameScreen(){
   text(score, canvasWidth / 2, character.y - 200);
   textSize(20);
   textAlign(CENTER);
-  text(`High Score:  ${highScore}`, canvasWidth / 2, character.y+250);
+  text(`High Score:  ${highScore}`, canvasWidth / 2, character.y + 250);
   pop();
 
   character.draw();
@@ -101,43 +105,44 @@ function gameScreen(){
     }
   }
 
-  if (score > difficulty+1) {
+  if (score > difficulty + 1) {
     platforms[3].x = platforms[3].x + speed;
     if (platforms[3].x > canvasWidth) {
       platforms[3].x = 0 - platforms[3].w;
     }
   }
 
-  if (score > difficulty+2) {
+  if (score > difficulty + 2) {
     platforms[2].x = platforms[2].x + speed;
     if (platforms[2].x > canvasWidth) {
       platforms[2].x = 0 - platforms[2].w;
     }
-  }  
+  }
 
-  if (score > difficulty*2) { //at an even further point the platforms no longer freeze after being jumped on
+  if (score > difficulty * 2) {
+    //at an even further point the platforms no longer freeze after being jumped on
     platforms[1].x = platforms[1].x + speed;
     if (platforms[1].x > canvasWidth) {
       platforms[1].x = 0 - platforms[1].w + speed;
     }
   }
 
-  if (score > difficulty*2+1) { 
+  if (score > difficulty * 2 + 1) {
     platforms[0].x = platforms[0].x + speed;
     if (platforms[0].x > canvasWidth) {
       platforms[0].x = 0 - platforms[0].w + speed;
     }
   }
 
-  if (score > difficulty*3) { //at an even further point the platforms disappear after being jumped on
-    platforms[1].x = 1000 + (speed*0);
+  //at an even further point the platforms disappear after being jumped on
+  if (score > difficulty * 3) {
+    platforms[0].x = 1000 + speed * 0;
   }
 
-  if (score > difficulty*3+1) { 
-    platforms[0].x = 1000 + (speed*0);
+  if (score > difficulty * 3 + 1) {
+    platforms[1].x = 1000 + speed * 0;
   }
 }
-
 
 function gameOver() {
   textSize(30);
@@ -148,26 +153,23 @@ function gameOver() {
   text(score, canvasWidth / 2, canvasHeight / 8 + 25);
   textSize(25);
   text("Press SPACE to play again", canvasWidth / 2, canvasHeight / 8 + 70);
-  gameStart = "end";
+  gameMode = "end";
 }
 
 function keyPressed() {
   if (keyCode === 32) {
-    if (gameStart == "end"){
+    if (gameMode == "end") {
       setup();
       loop();
-      gameStart = "start";
-       }
+      gameMode = "start";
+    }
   }
 }
 
-function mouseClicked(){
-  if(gameStart=="start"){
-    gameStart = "play";
+function mouseClicked() {
+  if (gameMode == "start") {
+    gameMode = "play";
     setup();
     loop();
   }
 }
-
-//git is being really weird and I just needed something to be able to commit again to test something
-//bouncing between Windows and Linux machines has resulted in some very weird behavior from VS Code and github
