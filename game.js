@@ -179,7 +179,7 @@ window.setup = setup;
 window.draw = draw;
 
 window.addEventListener("click", function (event) {
-    mousePressed();
+    mouseClicked();
 });
 
 window.addEventListener("keydown", function (event) {
