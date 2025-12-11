@@ -8,6 +8,7 @@ export default class Character {
     this.velocity = 0;
     this.gravity = 0.8;
     this.jumpPower = 16;
+    this.score = 0;
   }
 
   draw() {
@@ -319,7 +320,7 @@ export default class Character {
     pop();
   }
 
-  update() {
+  update(platforms, canvasWidth) {
     //screen wrapping
     if (this.x + this.w < 0) this.x = canvasWidth;
     if (this.x > canvasWidth) this.x = -this.w;
@@ -363,9 +364,9 @@ export default class Character {
     if (this.velocity < -40) this.velocity = -40;
 
     //clear platforms as they reach the bottom
-    if (platforms[0].y > character.y + 350) {
+    if (platforms[0].y > this.y + 350) {
       platforms.splice(0, 1);
-      score++;
+      this.score++;
     }
   }
 
