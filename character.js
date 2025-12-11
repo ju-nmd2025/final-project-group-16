@@ -374,3 +374,5 @@ export default class Character {
     this.velocity -= this.jumpPower;
   }
 }
+
+export { Character }
